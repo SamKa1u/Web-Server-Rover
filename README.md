@@ -1,10 +1,12 @@
 # Simple Rover
-<div>
-  <img src='Rover.jpeg' style=" width:252px;height:336px;">  
+<div >
+  <img src='Rover.jpeg' style=" width:252px;height:336px;" >
+  <img src='Controls.jpeg' style=" width:250px;height:445px;" >
+
 </div>
 <hr/>
 <h3>
-   A Web server controlled rover with a basic autonomous sentry mode
+   A rover controlled by a local web server with a basic autonomous sentry mode
 </h3>
 <div>
   <p1>
