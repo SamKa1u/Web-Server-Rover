@@ -1,8 +1,3 @@
-// File:          TetraAvoidCollision.c
-// Date:
-// Description:
-// Author:
-
 //Motor pins
 #define M1A 8
 #define M1B 9
