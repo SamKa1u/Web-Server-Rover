@@ -6,7 +6,7 @@
 </div>
 <hr/>
 <h3>
-   A rover controlled by a local web server with a autonomous sentry mode
+   A rover controlled by a local web server with an autonomous sentry mode
 </h3>
 <div>
   <p1>
