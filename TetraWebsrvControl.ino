@@ -2,7 +2,6 @@
 // Date:
 // Description:
 // Author:
-#include <Servo.h>
 
 //Motor pins
 #define M1A 8
@@ -40,7 +39,13 @@ void setup() {
   pinMode(IRR,INPUT);
 
 }
-
+/*
+  Interpret 4 bit number from ESP as command 
+    args: 
+      pin0,pin1,pin2,pin3 (bool) : the 4 bit number 
+    returns:
+      (int) : denotes instruction from webserver
+*/
 int command() {
   bool pin0 = digitalRead(Pin0);
   bool pin1 = digitalRead(Pin1);
@@ -96,12 +101,18 @@ int command() {
     return 1;
   }
 }
-
+/*
+  detect and maneuver around obstacles 
+    args: 
+      none
+    returns:
+      void
+*/
 void sentry() {
   IRR_sig = !digitalRead(IRL);
   IRL_sig = !digitalRead(IRR);
 
-  // Process sensor data here.
+  //Process sensor data
   if (IRL_sig && !IRR_sig ) {
     obs = 'l';
   }
@@ -114,6 +125,7 @@ void sentry() {
   else {
     obs = 'n';
   }
+  //Engage motors according to obstacle location
   switch (obs) {
       case 'n':
         //forwards
@@ -133,7 +145,7 @@ void sentry() {
       break;
     }    
 }
-
+//Movement options
 void reverse(){
   digitalWrite(M1A, HIGH);
   digitalWrite(M1B, LOW);
