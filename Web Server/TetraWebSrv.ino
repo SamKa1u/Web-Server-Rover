@@ -18,6 +18,7 @@ void notFound(AsyncWebServerRequest *request)
 
 void setup(void) 
 {    
+  //Check LittleFs mounted correctly with files available
   Serial.begin(115200);
   if(!LittleFS.begin()){
     Serial.println("An Error has occurred while mounting LittleFS");
@@ -29,6 +30,7 @@ void setup(void)
     Serial.print("File: ");
     Serial.println(dir.fileName());
 }
+  //Initialize pins to communicate with Maker Pi
   pinMode(Pin0,OUTPUT);
   pinMode(Pin1,OUTPUT);
   pinMode(Pin2,OUTPUT);
@@ -137,7 +139,4 @@ void setup(void)
   server.begin();
 }
 
-void loop() {
-  // put your main code here, to run repeatedly:
-
-}
+void loop() {}
