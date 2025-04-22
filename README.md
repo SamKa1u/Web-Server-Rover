@@ -1,15 +1,36 @@
 # Web Server Rover
-<div >
-  <img src='Rover.jpeg' style=" width:252px;height:336px;" >
-  <img src='Controls.jpeg' style=" width:250px;height:445px;" >
 
-</div>
-<hr/>
-<h3>
    A rover controlled by a local web server with an autonomous sentry mode
-</h3>
-<div>
-  <p1>
-    This rover is made up of 2 dc Motors driven by a Cytron Maker Pi RP2040 robot/motor controller, 2 Infared proximity senors and a NodeMCU Esp12 Dev board. It is powered by 3 AA batteries.
-  </p1>
+
+## Description
+
+  This rover is made up of 2 dc Motors driven by a Cytron Maker Pi RP2040 robot/motor controller, 2 Infared proximity senors and a NodeMCU Esp12 Dev board. It is powered by 3 AA batteries.
+
+### Dependencies
+
+* ESP8266WiFi
+* ESPAsyncWebServer
+* LittleFS
+
+### Executing program
+
+* Navigate to Ip address of ESP local webserver
+* Local web server communicates with Cytron Maker Pi to provide instructions for motor control. In sentry mode robot controller also processes sensor data to avoid obstacles.
+  
+<div class= 'flex-col'>
+  <img src='Controls.jpeg' style=" width:250px;height:445px;" >
+  <img src='Rover.jpeg' style=" width:252px;height:336px;" >
 </div>
+  
+## Author
+
+Samuel Kalu
+  
+* email : [samkalu@ttu.edu](mailto:samkalu@ttu.edu)
+* linkedin : [@SamuelKalu](https://www.linkedin.com/in/samuel-kalu-74a359342/)
+
+
+## Acknowledgments
+
+Inspiration, code snippets, etc.
+* [Webots](https://cyberbotics.com/doc/guide/tutorial-4-more-about-controllers?tab-language=c++)
