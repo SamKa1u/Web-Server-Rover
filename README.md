@@ -24,7 +24,7 @@
 ### Executing program
 
 * Navigate to Ip address of ESP local webserver.
-* Local web server communicates with Cytron Maker Pi to provide instructions for motor control. In sentry mode robot controller also processes sensor data to avoid obstacles.
+* Local web server communicates with Cytron Maker Pi to provide instructions for motor control. In sentry mode, the robot controller processes sensor data to avoid obstacles.
   
 <div class= 'flex-col'>
   <img src='Controls.jpeg' style=" width:250px;height:445px;" >
