@@ -4,7 +4,7 @@
 
 ## Description
 
-Web Server rover that replaces the esp12 with esp32 leveraging UART to communicate with Cytron Maker Pi roboto controller. 
+Web Server rover that replaces the esp12 with esp32 leveraging UART to communicate with Cytron Maker Pi robot controller. 
 
 ### Hardware
 
