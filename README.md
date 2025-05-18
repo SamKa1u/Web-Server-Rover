@@ -27,7 +27,7 @@ Web Server rover that replaces the esp12 with esp32 leveraging UART to communica
 ### Executing program
 
 * Navigate to Ip address of ESP local webserver.
-* Local web server listens and communicates gamepad or mouse events to a Cytron Maker Pi over a UART connection. Providing more precise control of the rover's motor system. 
+* Local web server listens and communicates gamepad or mouse events to the Cytron Maker Pi, providing more precise control of the rover's motor system. 
   
 <div class= 'flex-col'>
   <img src='controls.jpeg' style=" width:250px;height:445px;" >
