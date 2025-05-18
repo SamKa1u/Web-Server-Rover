@@ -1,30 +1,33 @@
 # Web Server Rover
 
-   A rover controlled by a local web server with an autonomous sentry mode.
+   A rover controlled by a local web server.
 
 ## Description
 
-  This rover was inspired by a webots line sensing tutorial.
-
-### Dependencies
-
-* ESP8266WiFi
-* ESPAsyncWebServer
-* LittleFS
+Web Server rover that replaces the esp12 with esp32 leveraging UART to communicate with Cytron Maker Pi roboto controller. 
 
 ### Hardware
 
-* NodeMcu ESP12 dev board
+* Xiao Esp32S3 Sense
 * Cytron Maker Pi RP20240
-* 2 dc motors
+* 2 dc motors and wheels
 * 2 IR proximity sensors
 * 3 AA batteries
-* Frame and wheels 
+* Wooden Frame
+
+  
+### Dependencies
+
+#### Xiao
+* ArduinoJson
+#### Maker Pi
+* hardware/uart
+
 
 ### Executing program
 
 * Navigate to Ip address of ESP local webserver.
-* Local web server communicates with Cytron Maker Pi to provide instructions for motor control. In sentry mode, the robot controller processes sensor data to avoid obstacles.
+* Local web server communicates gamepad events over a UART connection with the Cytron Maker Pi providing instructions for more precise control of the rover's motor system. 
   
 <div class= 'flex-col'>
   <img src='Controls.jpeg' style=" width:250px;height:445px;" >
