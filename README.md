@@ -30,8 +30,9 @@ Web Server rover that replaces the esp12 with esp32 leveraging UART to communica
 * Local web server communicates gamepad events over a UART connection with the Cytron Maker Pi providing instructions for more precise control of the rover's motor system. 
   
 <div class= 'flex-col'>
-  <img src='Controls.jpeg' style=" width:250px;height:445px;" >
-  <img src='Rover.jpeg' style=" width:252px;height:336px;" >
+  <img src='controls.jpeg' style=" width:250px;height:445px;" >
+   <img src='controller.jpeg' style=" width:252px;height:336px;" >
+  <img src='XiaoRover.jpeg' style=" width:252px;height:336px;" >
 </div>
   
 ## Author
