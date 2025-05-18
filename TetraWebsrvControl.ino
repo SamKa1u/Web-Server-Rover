@@ -1,3 +1,11 @@
+#include <hardware/uart.h>
+
+//uart instance and pins
+#define TX_PIN 4
+#define RX_PIN 5
+#define BAUD_RATE 9600
+#define UART_ID uart1
+
 //Motor pins
 #define M1A 8
 #define M1B 9
@@ -10,104 +18,146 @@
 #define Pin2 26
 #define Pin3 6
 //Infrared pins
-#define IRL 4
+#define IRL 2
 #define IRR 16
 
 //Define variables
 int msg, IRL_sig, IRR_sig;
 char obs;
 
+// Buffer for incoming data
+char buffer[100];
+int bufferIndex = 0;
+
 void setup() {
-  Serial.begin(9600);
+  Serial.begin(115200);
+
+//initialize UART1
+// Initialize UART1
+  uart_init(UART_ID, BAUD_RATE);
+  gpio_set_function(TX_PIN, GPIO_FUNC_UART);
+  gpio_set_function(RX_PIN, GPIO_FUNC_UART);
+  Serial.println("RP2040 UART Comms initialized");
+
 //initialize Motors as output
   pinMode(M1A,OUTPUT);
   pinMode(M2A,OUTPUT);
   pinMode(M1B,OUTPUT);
   pinMode(M2B,OUTPUT);
-//initialize Control pins
-  pinMode(Pin0,INPUT);
-  pinMode(Pin1,INPUT);
-  pinMode(Pin2,INPUT);
-  pinMode(Pin3,INPUT);
+
 //initialize Infrared pins as inputs
   pinMode(IRL,INPUT);
   pinMode(IRR,INPUT);
-
 }
-/*
-  Interpret 4 bit number from ESP as command 
-    args: 
-      pin0,pin1,pin2,pin3 (bool) : the 4 bit number 
-    returns:
-      (int) : denotes instruction from webserver
-*/
-int command() {
-  bool pin0 = digitalRead(Pin0);
-  bool pin1 = digitalRead(Pin1);
-  bool pin2 = digitalRead(Pin2);
-  bool pin3 = digitalRead(Pin3);
 
-  if (pin0 == 0 && pin1 == 0 && pin2 == 0 && pin3 == 1 ){
-    return 2;
+void loop() {
+
+  // Check for incoming data
+  if (uart_is_readable(UART_ID)) {    
+    while (uart_is_readable(UART_ID) && bufferIndex < 99) {
+      buffer[bufferIndex] = uart_getc(UART_ID);
+      bufferIndex++;
+    }
+    // End of command
+    buffer[bufferIndex] = '\0';
+    processCommand(buffer);
+    bufferIndex = 0;
+    
   }
-  else if (pin0 == 0 && pin1 == 0 && pin2 == 1 && pin3 == 0 ){
-    return 3;
+  delay(50);
+}
+
+void processCommand(const char* cmd) {
+  // Check if it's a joystick command (J:X,Y)
+  if (cmd[0] == 'J' && cmd[1] == ':') {
+    // Parse X,Y values
+    int x = 0, y = 0;
+    sscanf(&cmd[2], "%d,%d", &x, &y);
+    
+    Serial.print("Received joystick command: X=");
+    Serial.print(x);
+    Serial.print(", Y=");
+    Serial.println(y);
+    
+    // Convert joystick values to motor control
+    setMotors(y, x);
+
   }
-  else if (pin0 == 0 && pin1 == 0 && pin2 == 1 && pin3 == 1 ){
-    return 4;
-  }
-  else if (pin0 == 0 && pin1 == 1 && pin2 == 0 && pin3 == 0 ){
-    return 5;
-  }
-  else if (pin0 == 0 && pin1 == 1 && pin2 == 0 && pin3 == 1 ){
-    return 6;
-  }
-  else if (pin0 == 0 && pin1 == 1 && pin2 == 1 && pin3 == 0 ){
-    return 7;
-  }
-  else if (pin0 == 0 && pin1 == 1 && pin2 == 1 && pin3 == 1 ){
-    return 8;
-  }
-  else if (pin0 == 1 && pin1 == 0 && pin2 == 0 && pin3 == 0 ){
-    return 9;
-  }
-  else if (pin0 == 1 && pin1 == 0 && pin2 == 0 && pin3 == 1 ){
-    return 10;
-  }
-  else if (pin0 == 1 && pin1 == 0 && pin2 == 1 && pin3 == 0 ){
-    return 11;
-  }
-  else if (pin0 == 1 && pin1 == 0 && pin2 == 1 && pin3 == 1 ){
-    return 12;
-  }
-  else if (pin0 == 1 && pin1 == 1 && pin2 == 0 && pin3 == 0 ){
-    return 13;
-  }
-  else if (pin0 == 1 && pin1 == 1 && pin2 == 0 && pin3 == 1 ){
-    return 14;
-  }
-  else if (pin0 == 1 && pin1 == 1 && pin2 == 1 && pin3 == 0 ){
-    return 15;
-  }
-  else if (pin0 == 1 && pin1 == 1 && pin2 == 1 && pin3 == 1 ){
-    return 16;
+}
+int tolerance(int value) {
+  if (value > -10 && value < 10) {
+    return 0;
   }
   else {
-    return 1;
+    return value;
   }
 }
-/*
-  detect and maneuver around obstacles 
-    args: 
-      none
-    returns:
-      void
-*/
+void setMotors(int X, int Y) {
+  // Y - forward/back
+  // X - turning
+  X = tolerance(X);
+  Y = tolerance(Y);
+
+  int leftSpeed = Y + X;
+  int rightSpeed = Y - X;
+  //echo command
+  char leftspd = leftSpeed;
+  char rightspd = rightSpeed; 
+  Serial.print("Echoed Left speed:");
+  Serial.print(leftspd+);
+  Serial.print(" Echoed right speed:");
+  Serial.println(rightspd));
+  uart_puts(UART_ID, leftspd+rightspd+"\n");
+  leftSpeed = constrain(leftSpeed, -100, 100);
+  rightSpeed = constrain(rightSpeed, -100, 100);
+
+  //Drive motors
+  setLeft(leftSpeed);
+  setRight(rightSpeed);
+}
+
+// M1
+void setLeft(int speed){
+  if (speed > 0) {
+    //Forwards
+    digitalWrite(M1A, LOW);
+    digitalWrite(M1B, map(speed, 0, 100, 0, 255));
+  }
+  else if (speed < 0) {
+    //Backwards
+    digitalWrite(M1A, map(abs(speed), 0, 100, 0, 255));
+    digitalWrite(M1B, LOW);
+  }
+  else{
+    digitalWrite(M1A, LOW);
+    digitalWrite(M1B, LOW);
+  }
+}
+// M2
+void setRight(int speed){
+  if (speed > 0) {
+    //Forwards
+    digitalWrite(M2A, LOW);
+    digitalWrite(M2B, map(speed, 0, 100, 0, 255));
+  }
+  else if (speed < 0) {
+    //Backwards
+    digitalWrite(M2A, map(abs(speed), 0, 100, 0, 255));
+    digitalWrite(M2B, LOW);
+  }
+  else{
+    digitalWrite(M2A, LOW);
+    digitalWrite(M2B, LOW);
+  }
+}
+
+// Autonomous Motor Control
 void sentry() {
+  Serial.println("sen");
   IRR_sig = !digitalRead(IRL);
   IRL_sig = !digitalRead(IRR);
 
-  //Process sensor data
+  // Process sensor data here.
   if (IRL_sig && !IRR_sig ) {
     obs = 'l';
   }
@@ -120,7 +170,6 @@ void sentry() {
   else {
     obs = 'n';
   }
-  //Engage motors according to obstacle location
   switch (obs) {
       case 'n':
         //forwards
@@ -140,67 +189,43 @@ void sentry() {
       break;
     }    
 }
-//Movement options
+
 void reverse(){
+  Serial.println("rv");
   digitalWrite(M1A, HIGH);
   digitalWrite(M1B, LOW);
   digitalWrite(M2A, LOW);
   digitalWrite(M2B, HIGH);
 }
 void left(){
+  Serial.println("l");
   digitalWrite(M1A, HIGH);
   digitalWrite(M1B, LOW);
   digitalWrite(M2A, HIGH);
   digitalWrite(M2B, LOW);
 }
 void right(){
+  
+  Serial.println("rg");
   digitalWrite(M1A, LOW);
   digitalWrite(M1B, HIGH);
   digitalWrite(M2A, LOW);
   digitalWrite(M2B, HIGH);
 }
 void forwards(){
+  
+  Serial.println("f");
   digitalWrite(M1A, LOW);
   digitalWrite(M1B, HIGH);
   digitalWrite(M2A, HIGH);
   digitalWrite(M2B, LOW);
 }
 void stop(){
+  Serial.println("sp");
   digitalWrite(M1A, LOW);
   digitalWrite(M1B, LOW);
   digitalWrite(M2A, LOW);
   digitalWrite(M2B, LOW);
 }
-void loop() {
-  // Read the control pins:
-  msg = command();
-  Serial.println(msg);
-  //actuator commands
-    switch (msg) {
-      case 2:
-        //reverse
-        reverse();
-        break;
-      case 3:
-        //turn left
-        left();
-        break;
-      case 4:
-        //turn right
-        right();
-        break;
-      case 5:
-        //forwards
-        forwards();
-        break;
-      case 6:
-        //auto
-        sentry();
-        break;
-      default:
-        //stop
-        stop();
-        break;
-    }
-}
+
 
