@@ -4,7 +4,7 @@
 
 ## Description
 
-Web Server rover that replaces the esp12 with esp32 leveraging UART to communicate with Cytron Maker Pi robot controller leveraging arduino IDE. 
+Web Server rover that replaces the esp12 with esp32 leveraging UART to communicate with Cytron Maker Pi robot controller. 
 
 ### Hardware
 
@@ -16,7 +16,7 @@ Web Server rover that replaces the esp12 with esp32 leveraging UART to communica
 * Wooden Frame
 
   
-### Dependencies
+### Dependencies (ArduinoIDE)
 
 #### Xiao
 * ArduinoJson
@@ -27,9 +27,10 @@ Web Server rover that replaces the esp12 with esp32 leveraging UART to communica
 ### Executing program
 
 * Upload TetraWebSrv.ino to the Xiao then navigate to Ip address of ESP local webserver printed in the serial console.
-  <img src='images/XiaoSerial.PNG' style=" width:252px;height:336px;" >
-* Upload TetraWebsrvControl.ino to the Cytron Maker Pi the Local web server listens and communicates gamepad or mouse events to the Cytron Maker Pi, providing more precise control of the rover's motor system. 
-  
+  <img src='images/XiaoSerial.PNG' >
+* Upload TetraWebsrvControl.ino to the Cytron Maker Pi, the Local web server listens and communicates gamepad or mouse events to the Cytron Maker Pi, providing more precise control of the rover's motor system. 
+  <img src='images/CytronSerial.PNG' >
+
 <div class= 'flex-col'>
   <img src='images/controls.jpeg' style=" width:250px;height:445px;" >
    <img src='images/controller.jpeg' style=" width:336px;height:252px;" >
