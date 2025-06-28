@@ -10,19 +10,25 @@
 * Waveshare Rover kit
 * Laptop
 
-  
-### Dependencies 
-
-#### Xiao
-* ArduinoJson
 
 
 ### Executing program
 
-* Modify TetraWebSrv.ino with your wifi credentials and upload it to the Xiao then navigate to Ip address of ESP local webserver printed in the serial console. \
-  <img src='images/XiaoSerial.PNG' >
-  
+* Clone the repo
+```
+git clone https://github.com/SamKa1u/Web-Server-Rover.git
+```
+
+#### Ensure your gampead is connected to your laptop by doing the following:
+1.  Press the Windows key + R, type devmgmt.msc in the Run box   
+<img src="images/run_device_manager.PNG">
+2. Verify your gamepad is visible from device manager, you can find it under Human Interface Devices
+  <img src="logitech.PNG">
+3. Double click UGVstick.html and open in a web browser
+  <img src="control_page.PNG">
+
 ## Author
+
 
 Samuel Kalu
   
@@ -30,7 +36,6 @@ Samuel Kalu
 * linkedin : [@SamuelKalu](https://www.linkedin.com/in/samuel-kalu-74a359342/)
 
 
-## Acknowledgments
-
-Inspiration, code snippets, etc.
-* [Webots](https://cyberbotics.com/doc/guide/tutorial-4-more-about-controllers?tab-language=c++)
+## Inspiration, code snippets, etc.
+#### Waveshare
+* [Wiki](https://www.waveshare.com/wiki/General_Driver_for_Robots)
