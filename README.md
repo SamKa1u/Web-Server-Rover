@@ -26,7 +26,7 @@ git clone https://github.com/SamKa1u/Web-Server-Rover.git
   <img src="images/logitech.PNG">
 3. Double click UGVstick.html and open in a web browser, you should see the onscreen joystick respond to your gamepad's axis_0 and axis_1 inputs (typically the left stick)
   <img src="images/control_page.PNG">
-4. You can vist [this](https://hardwaretester.com/gamepad) hardware tester if you are still haveing issues
+4. You can vist [this](https://hardwaretester.com/gamepad) hardware tester if you are still having issues
 
 ####  Connect to the UGV AP from your device
   <img src="images/UGV.PNG">
