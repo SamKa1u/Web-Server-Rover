@@ -78,6 +78,7 @@ const joystick = document.getElementById('joystick');
 
     function sendJoystickData(x, y) {
         const req = new XMLHttpRequest();
+        const path = "http://192.168.4.1/js?json=";
         req.addEventListener("load", reqListener);
         // let l=0,r=0;
         switch (true) {
@@ -85,27 +86,27 @@ const joystick = document.getElementById('joystick');
                 switch (true) {
                     //right
                     case x>25:
-                        req.open("GET", "http://192.168.4.1/js?json={%22T%22:1,%22L%22:0.5,%22R%22:-0.5}");
+                        req.open("GET", path+"{%22T%22:1,%22L%22:0.5,%22R%22:-0.5}");
                         req.send();
                         break;
                     //left
                     case x<-25:
-                        req.open("GET", "http://192.168.4.1/js?json={%22T%22:1,%22L%22:-0.5,%22R%22:0.5}");
+                        req.open("GET", path+"{%22T%22:1,%22L%22:-0.5,%22R%22:0.5}");
                         req.send();
                         break;
                     //forwards
                     default:
-                        req.open("GET", "http://192.168.4.1/js?json={%22T%22:1,%22L%22:0.5,%22R%22:0.5}");
+                        req.open("GET", path+"{%22T%22:1,%22L%22:0.5,%22R%22:0.5}");
                         req.send();
                         break;
                 }
                 break;
             case y<-5:
-                req.open("GET", "http://192.168.4.1/js?json={%22T%22:1,%22L%22:-0.5,%22R%22:-0.5}");
+                req.open("GET", path+"{%22T%22:1,%22L%22:-0.5,%22R%22:-0.5}");
                 req.send();
                 break;
             default:
-                req.open("GET", "http://192.168.4.1/js?json={%22T%22:1,%22L%22:0.0,%22R%22:0.0}");
+                req.open("GET", path+"{%22T%22:1,%22L%22:0.0,%22R%22:0.0}");
                 req.send();
                 break;
 
