@@ -77,14 +77,65 @@ const joystick = document.getElementById('joystick');
     }
 
     function sendJoystickData(x, y) {
-      fetch('/joystick', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ x, y })
-      });
+        const req = new XMLHttpRequest();
+        req.addEventListener("load", reqListener);
+        // let l=0,r=0;
+        switch (true) {
+            case y>5:
+                switch (true) {
+                    //right
+                    case x>25:
+                        req.open("GET", "http://192.168.4.1/js?json={%22T%22:1,%22L%22:0.5,%22R%22:-0.5}");
+                        req.send();
+                        break;
+                    //left
+                    case x<-25:
+                        req.open("GET", "http://192.168.4.1/js?json={%22T%22:1,%22L%22:-0.5,%22R%22:0.5}");
+                        req.send();
+                        break;
+                    //forwards
+                    default:
+                        req.open("GET", "http://192.168.4.1/js?json={%22T%22:1,%22L%22:0.5,%22R%22:0.5}");
+                        req.send();
+                        break;
+                }
+                break;
+            case y<-5:
+                req.open("GET", "http://192.168.4.1/js?json={%22T%22:1,%22L%22:-0.5,%22R%22:-0.5}");
+                req.send();
+                break;
+            default:
+                req.open("GET", "http://192.168.4.1/js?json={%22T%22:1,%22L%22:0.0,%22R%22:0.0}");
+                req.send();
+                break;
+
+        }
+
+        // teleoperation
+        // const data = {
+        //     "T":1,
+        //     "L":l,
+        //     "R":r
+        // };
+        // const JsonStr = JSON.stringify(data);
+        // const url = `http://192.168.4.1/js?json=${JsonStr}`
+
+        //heartbeat
+        // const heartB = {
+        //     "T":130,
+        // };
+        // const JsonHBStr = JSON.stringify(data);
+        // const HBurl = `http://192.168.4.1/js?json=${JsonHBStr}`
+        //
+        // req.open("GET", HBurl);
+        // req.send();
+
+
     }
+    function reqListener() {
+      console.log(this.responseText);
+    }
+
 
     // Mouse events
     joystick.addEventListener('mousedown', handleStart);
