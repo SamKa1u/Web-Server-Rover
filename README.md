@@ -29,7 +29,7 @@ git clone https://github.com/SamKa1u/Web-Server-Rover.git
 4. You can vist [this](https://hardwaretester.com/gamepad) hardware tester if you are still having issues
 
 ####  Connect to the UGV AP from your device
-  <img src="images/UGV.PNG">
+  <img src="images/UGV.png">
 
 #### Get the IP address of your wave rover and modify the path variable of the sendJoystickData function in handleGamepad.js to reach it
 
